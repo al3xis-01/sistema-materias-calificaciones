@@ -14,5 +14,6 @@ router.get('/Consultar/Estudiantes/:matricula/:cuatrimestre', calificacionesCont
 router.get('/Resumen/Estudiantes/:cuatrimestre', calificacionesController.show_all_calificaciones_by_cuatrimestre);
 
 router.get('/Historial/Estudiantes', calificacionesController.show_historial_estudiante);
+router.post('/Historial/:matricula', calificacionesController.get_historial_estudiante);
 
 module.exports  =   router;

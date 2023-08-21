@@ -224,6 +224,83 @@ function show_historial_estudiante(req, resp) {
   resp.render('calificaciones/historial-estudiante')
 }
 
+function get_historial_estudiante(req, resp) {
+  const matricula = req.body.matricula;
+
+  const queryAlumno = `SELECT id, matricula, nombre, apellido_paterno, apellido_materno, genero, fecha_nacimiento, id_domicilio FROM alumnos WHERE matricula = ?`;
+
+  connection.query(queryAlumno, [matricula], function (error, alumnoResults) {
+    if (error) {
+      console.error("Error al consultar en la base de datos:", error);
+      resp.status(500).send("Error al buscar los datos");
+    } else {
+      //resp.send(alumnoResults);
+      if (alumnoResults.length === 0) {
+        resp.send({ status: 404 });
+      } else {
+        const alumno = alumnoResults[0];
+
+        const queryMaterias = `SELECT id, nombre, cuatrimestre FROM materias`;
+
+        connection.query(queryMaterias, function (materiasError, materiasResults) {
+          if (materiasError) {
+            console.error("Error al consultar materias en la base de datos:", materiasError);
+            resp.status(500).send("Error al buscar las materias");
+          } else {
+            const materias = materiasResults;
+
+            const queryCalificaciones = `SELECT m.cuatrimestre, m.clave_materia, m.nombre AS nombre_materia, c.parcial1, c.parcial2, c.parcial3, c.extraordinario
+                                         FROM materias AS m
+                                         LEFT JOIN calificaciones AS c ON m.id = c.id_materia AND c.id_alumno = ?
+                                         WHERE m.cuatrimestre <= (SELECT MAX(cuatrimestre) FROM materias)
+                                         ORDER BY m.cuatrimestre`;
+
+            connection.query(queryCalificaciones, [alumno.id], function (calificacionesError, calificacionesResults) {
+              if (calificacionesError) {
+                console.error("Error al consultar calificaciones en la base de datos:", calificacionesError);
+                resp.status(500).send("Error al buscar las calificaciones");
+              } else {
+                const historial = [];
+                let cuatrimestre = 0;
+                let cuatrimestreData = null;
+
+                calificacionesResults.forEach(function (row) {
+                  if (row.cuatrimestre !== cuatrimestre) {
+                    if (cuatrimestreData !== null) {
+                      historial.push(cuatrimestreData);
+                    }
+                    cuatrimestreData = {
+                      cuatrimestre: row.cuatrimestre,
+                      materias: [],
+                    };
+                    cuatrimestre = row.cuatrimestre;
+                  }
+
+                  cuatrimestreData.materias.push({
+                    clave_materia: row.clave_materia,
+                    nombre_materia: row.nombre_materia,
+                    parcial1: row.parcial1 !== null ? row.parcial1.toFixed(2) : '-',
+                    parcial2: row.parcial2 !== null ? row.parcial2.toFixed(2) : '-',
+                    parcial3: row.parcial3 !== null ? row.parcial3.toFixed(2) : '-',
+                    extraordinario: row.extraordinario !== null ? row.extraordinario.toFixed(2) : '-',
+                  });
+                });
+
+                if (cuatrimestreData !== null) {
+                  historial.push(cuatrimestreData);
+                }
+
+                resp.status(200).json({ alumno, historial });
+              }
+            });
+          }
+        });
+      }
+    }
+  });
+}
+
+
 
 module.exports  =   {
   show_by_estudiantes,
@@ -231,5 +308,6 @@ module.exports  =   {
   search_by_estudiantes,
   search_by_estudiante_with_matricula,
   show_all_calificaciones_by_cuatrimestre,
-  show_historial_estudiante
+  show_historial_estudiante,
+  get_historial_estudiante
 };
