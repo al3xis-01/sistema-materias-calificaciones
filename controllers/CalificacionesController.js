@@ -211,6 +211,9 @@ function show_all_calificaciones_by_cuatrimestre(req, resp) {
   });
 }
 
+function show_historial_estudiante(req, resp) {
+
+}
 
 
 module.exports  =   {
@@ -218,5 +221,6 @@ module.exports  =   {
   store_by_estudiantes,
   search_by_estudiantes,
   search_by_estudiante_with_matricula,
-  show_all_calificaciones_by_cuatrimestre
+  show_all_calificaciones_by_cuatrimestre,
+  show_historial_estudiante
 };
