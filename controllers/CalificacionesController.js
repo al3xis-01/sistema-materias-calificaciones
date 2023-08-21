@@ -161,7 +161,7 @@ function show_all_calificaciones_by_cuatrimestre(req, resp) {
           const materias = materiasResults;
 
           const calificacionesQuery =
-              `SELECT c.id_alumno, c.id_materia, AVG((IFNULL(c.parcial1,0) + IFNULL(c.parcial2, 0) + IFNULL(c.parcial3, 0) + IFNULL(c.extraordinario, 0)) / 4) AS promedio_individual
+              `SELECT c.id_alumno, c.id_materia, AVG((IFNULL(c.parcial1,0) + IFNULL(c.parcial2, 0) + IFNULL(c.parcial3, 0)) /3) AS promedio_individual
              FROM calificaciones AS c
              INNER JOIN materias AS m ON c.id_materia = m.id
              WHERE m.cuatrimestre = ?

@@ -27,20 +27,25 @@
                             <div class="col-md-4">
                                 <label>Seleccionar cuatrimestre</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <select name="cuatrimestre" id="cuatrimestre_select" class="form-select">
                                     <option value="1" <%=  (cuatrimestre == 1) ? 'selected' : ''%>>1</option>
                                     <option value="2" <%=  (cuatrimestre == 2) ? 'selected' : ''%>>2</option>
                                     <option value="3" <%=  (cuatrimestre == 3) ? 'selected' : ''%>>3</option>
                                 </select>
                             </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-sm btn-outline-secondary" type="button" id="btn_search">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="row m-3">
                             <div class="container">
                                 <h1>Calificaciones Cuatrimestre <%= cuatrimestre %></h1>
-                                <table class="table">
-                                    <thead>
+                                <table class="table table-bordered table-striped">
+                                    <thead class="table-dark text-center">
                                     <tr>
                                         <th>Matrícula</th>
                                         <th>Nombre Completo Alumno</th>
@@ -50,7 +55,7 @@
                                         <th>PROMEDIO INDIVIDUAL</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="text-center">
                                     <% for (const estudiante of info.estudiantes) { %>
                                         <tr>
                                             <td><%= estudiante.matricula %></td>
@@ -98,7 +103,10 @@
 <!-- Agrega este script al final del archivo ejs -->
 <script>
     $(document).ready(function() {
-
+        $('#btn_search').click(function () {
+            const cuatrimestre = $('#cuatrimestre_select').val();
+            window.location.href = '/Calificaciones/Resumen/Estudiantes/' + cuatrimestre;
+        });
     });
 </script>
 </body>
