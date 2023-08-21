@@ -26,12 +26,21 @@ function show_by_estudiantes(req, resp) {
 
 }
 
+// {"cuatrimestre":"1","materia":"1","parcial":"1","alumno[]":"1","calificacion[]":"10"}
 function store_by_estudiantes(req, resp) {
-  const alumnos = req.body['alumno[]'];
-  const calificaciones = req.body['calificacion[]'];
+  let alumnos = req.body['alumno[]'];
+  let calificaciones = req.body['calificacion[]'];
   const cuatrimestre = req.body.cuatrimestre;
   const materia = req.body.materia;
   const parcial = req.body.parcial;
+
+
+  if (!Array.isArray(alumnos)){
+    alumnos = [alumnos];
+  }
+  if (!Array.isArray(calificaciones)){
+    calificaciones  = [calificaciones];
+  }
 
   if (
       alumnos &&
@@ -212,7 +221,7 @@ function show_all_calificaciones_by_cuatrimestre(req, resp) {
 }
 
 function show_historial_estudiante(req, resp) {
-
+  resp.render('calificaciones/historial-estudiante')
 }
 
 
