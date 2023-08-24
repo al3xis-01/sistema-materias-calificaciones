@@ -127,7 +127,7 @@ function edit(req, resp, next) {
                     '\tsistema_db.domicilio o', [alumno.id_domicilio] , function (error2, results2) {
 
                     let domicilio   =   results2[0];
-                    resp.render('alumnos/edit', {alumno, domicilio});
+                    resp.json({alumno, domicilio});
                 })
 
             }

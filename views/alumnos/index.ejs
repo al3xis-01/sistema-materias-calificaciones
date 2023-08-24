@@ -24,6 +24,11 @@
                     </div>
                     <div class="card-body">
 
+                        <!-- Button trigger modal -->
+                        <button id="agregarAlumnoBtn" type="button" class="btn btn-primary m-4" data-toggle="modal" data-target="#exampleModal">
+                            Agregar Alumno
+                        </button>
+
                         <% if (newRegister && data){ %>
                             <div class="row">
                                 <div class="col-md-12">
@@ -72,8 +77,8 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <a class="btn btn-sm btn-outline-primary"
-                                                           href="/Alumnos/<%= alumno.id %>/Editar"
+                                                        <a class="btn btn-sm btn-outline-primary btn-edit"
+                                                           data-index="<%= alumno.id %>"
                                                         >
                                                             <i class="fa fa-pencil"></i>
                                                             Editar
@@ -98,8 +103,200 @@
                     </div>
                 </div>
 
-
             </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">            
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Creacion de Alumno</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/Alumnos/Store" method="post">
+
+                                <div class="row mt-4">
+                                    <div class="form-group p-2">
+                                        <label ><font color="red">*</font>Matrícula:</label>
+                                        <input  name="matricula" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label ><font color="red">*</font>Nombre:</label>
+                                        <input  name="nombre" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label ><font color="red">*</font>Apellido Paterno:</label>
+                                        <input name="apellido_paterno" type="text" class="form-control"  placeholder="" required>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label ><font color="red">*</font>Apellido Materno:</label>
+                                        <input name="apellido_materno" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label ><font color="red">*</font>Genero:</label>
+                                        <select name="genero" class="form-select" >
+                                            <option value="1">
+                                                Masculino
+                                            </option>
+                                            <option value="2">
+                                                Femenino
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label ><font color="red">*</font>Fecha Nacimiento:</label>
+                                        <input name="fecha_nacimiento" type="date" class="form-control" placeholder="" required>
+                                    </div>
+
+
+                                    <div class="form-group p-2">
+                                        <label ><font color="red">*</font>Calle:</label>
+                                        <input name="calle" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+
+                                    <div class="form-group p-2">
+                                        <label ><font color="red">*</font>Colonia:</label>
+                                        <input name="colonia" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label ><font color="red">*</font>Número:</label>
+                                        <input name="numero" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+
+                                </div>
+
+
+
+
+                                <div class="row mt-4">
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-save"></i>
+                                            Guardar
+                                        </button>
+
+                                        <button onclick="$('#exampleModal').modal('hide')" type="button" data-dismiss="modal" class="btn btn-danger">
+                                            <i class="fa fa-undo"></i>
+                                            Cancelar
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Actualizacion de alumno</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" id="formUpdate">
+
+                                <input type="hidden" name="id_domicilio" id="id_domicilio" value="">
+
+                                <div class="row mt-4">
+                                    <div class="form-group p-2">
+                                        <label><font color="red">*</font>Matrícula:</label>
+                                        <input value="" name="matricula" id="matricula" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label><font color="red">*</font>Nombre:</label>
+                                        <input value="" name="nombre" id="nombre" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label><font color="red">*</font>Apellido Paterno:</label>
+                                        <input value="" name="apellido_paterno" id="apellido_paterno" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label><font color="red">*</font>Apellido Materno:</label>
+                                        <input value="" name="apellido_materno"id="apellido_materno" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label><font color="red">*</font>Genero:</label>
+                                        <select name="genero" id="genero" class="form-select">
+                                            <option value="1" >
+                                                Masculino
+                                            </option>
+                                            <option value="2" >
+                                                Femenino
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label><font color="red">*</font>Fecha Nacimiento:</label>
+                                        <input  name="fecha_nacimiento"  id="fecha_nacimiento" type="date" class="form-control" placeholder="" required>                                </div>
+
+                                    <div class="form-group p-2">
+                                        <label><font color="red">*</font>Calle:</label>
+                                        <input value="" name="calle" id="calle" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label><font color="red">*</font>Colonia:</label>
+                                        <input value="" name="colonia" id="colonia" type="text" class="form-control" placeholder="" required>
+                                    </div>
+
+                                    <div class="form-group p-2">
+                                        <label><font color="red">*</font>Número:</label>
+                                        <input value="" name="numero" id="numero" type="text" class="form-control" placeholder="" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-save"></i>
+                                            Guardar
+                                        </button>
+
+                                        <a onclick="$('#exampleModal2').modal('hide')" class="btn btn-danger">
+                                            <i class="fa fa-undo"></i>
+                                            Cancelar
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </main>
 
         <%- include('../partials/footer'); %>
@@ -139,7 +336,43 @@
                 }
             })
         });
+        $('#agregarAlumnoBtn').click(function () {
+            $('#exampleModal').modal('show')
+        })
+        $('.btn-edit').click(function () {
+            const index =   $(this).data('index')
+            $.ajax('/Alumnos/'+index+'/Editar',{
+                dataType: 'json',
+                method: 'GET',
+                success: function (res) {
+                    let urlUpdate = '/Alumnos/Update/' +res.alumno.id
+                    const alumno    =   res.alumno;
+                    const domicilio    =   res.domicilio;
+                    $('#formUpdate').attr('action', urlUpdate);
+                    $('#matricula').val(alumno.matricula);
+                    $('#nombre').val(alumno.nombre);
+                    $('#apellido_paterno').val(alumno.apellido_paterno);
+                    $('#apellido_materno').val(alumno.apellido_materno);
+                    $('#genero').val(alumno.genero);
+                    $('#fecha_nacimiento').val(formatDate(alumno.fecha_nacimiento));
+                    $('#id_domicilio').val(alumno.id_domicilio);
+                    $('#calle').val(domicilio.calle);
+                    $('#colonia').val(domicilio.colonia);
+                    $('#numero').val(domicilio.numero);
+
+                    $('#exampleModal2').modal('show');
+
+                }
+            });
+        });
     });
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 </script>
 </body>
 </html>

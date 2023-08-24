@@ -86,7 +86,7 @@ function edit(req, resp, next) {
             } else {
                 let materia =   results[0];
 
-                resp.render('materias/edit', {materia});
+                resp.json(materia);
 
             }
         });
